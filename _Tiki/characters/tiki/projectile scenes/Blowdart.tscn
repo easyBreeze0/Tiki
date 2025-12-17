@@ -1,0 +1,59 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://_Tiki/characters/tiki/states/SimpleProjectileDefaultState.gd" type="Script" id=1]
+[ext_resource path="res://_Tiki/characters/tiki/sprites/blowdart_projectile.png" type="Texture" id=2]
+[ext_resource path="res://mechanics/Hitbox.gd" type="Script" id=3]
+[ext_resource path="res://projectile/BaseProjectile.tscn" type="PackedScene" id=4]
+
+[sub_resource type="SpriteFrames" id=1]
+animations = [ {
+"frames": [  ],
+"loop": true,
+"name": "default",
+"speed": 5.0
+} ]
+
+[node name="Blowdart" instance=ExtResource( 4 )]
+
+[node name="Sprite" parent="Flip" index="0"]
+frames = SubResource( 1 )
+
+[node name="BlowdartProjectile" type="Sprite" parent="Flip/Sprite" index="0"]
+position = Vector2( 8, 8 )
+texture = ExtResource( 2 )
+
+[node name="CollisionBox" parent="." index="2"]
+y = -1
+width = 3
+height = 1
+
+[node name="Hurtbox" parent="." index="3"]
+y = -1
+width = 3
+height = -1
+
+[node name="Default" parent="StateMachine" index="0"]
+script = ExtResource( 1 )
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="Hitbox" type="Node2D" parent="StateMachine/Default" index="0"]
+z_index = 1000
+script = ExtResource( 3 )
+x = 1
+y = -1
+width = 3
+height = 1
+damage = 80
+hitstun_ticks = 15
+victim_hitlag = 7
+cancellable = false
+hits_otg = true
+sdi_modifier = "0.0"
+dir_y = "-0.2"
+knockback = "5"
+launch_reversible = true
+start_tick = 1
+active_ticks = 0
+always_on = true

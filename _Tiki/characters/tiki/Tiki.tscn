@@ -1,0 +1,172 @@
+[gd_scene load_steps=12 format=2]
+
+[ext_resource path="res://characters/BaseChar.gdshader" type="Shader" id=1]
+[ext_resource path="res://characters/BaseChar.tscn" type="PackedScene" id=2]
+[ext_resource path="res://_Tiki/characters/tiki/TikiSpriteFrames.tres" type="SpriteFrames" id=3]
+[ext_resource path="res://mechanics/Hitbox.gd" type="Script" id=4]
+[ext_resource path="res://_Tiki/characters/tiki/states/emptystate.gd" type="Script" id=5]
+[ext_resource path="res://_Tiki/characters/tiki/icons/stabicon.png" type="Texture" id=6]
+[ext_resource path="res://_Tiki/characters/tiki/states/SimpleProjectile.gd" type="Script" id=7]
+[ext_resource path="res://_Tiki/characters/tiki/projectile scenes/Blowdart.tscn" type="PackedScene" id=8]
+[ext_resource path="res://_Tiki/characters/tiki/icons/Dart.png" type="Texture" id=9]
+[ext_resource path="res://_Tiki/characters/tiki/ActionUI/BlowdartUI.tscn" type="PackedScene" id=10]
+
+[sub_resource type="ShaderMaterial" id=1]
+resource_local_to_scene = true
+shader = ExtResource( 1 )
+shader_param/use_extra_color_1 = false
+shader_param/use_extra_color_2 = false
+shader_param/extra_replace_color_1 = Color( 1, 0, 1, 1 )
+shader_param/extra_replace_color_2 = Color( 1, 0, 1, 1 )
+shader_param/color = Color( 1, 1, 1, 1 )
+shader_param/extra_color_1 = Color( 1, 1, 1, 1 )
+shader_param/extra_color_2 = Color( 1, 1, 1, 1 )
+shader_param/max_color_distance = 0.01
+shader_param/super_dim = false
+shader_param/use_outline = false
+shader_param/outline_color = Color( 0, 0, 0, 1 )
+
+[node name="Tiki" instance=ExtResource( 2 )]
+
+[node name="Sprite" parent="Flip" index="0"]
+material = SubResource( 1 )
+frames = ExtResource( 3 )
+animation = "Stab"
+
+[node name="Grab" parent="StateMachine" index="46"]
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="AirGrab" parent="StateMachine" index="47"]
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="Stab" type="Node2D" parent="StateMachine" index="57"]
+script = ExtResource( 5 )
+__meta__ = {
+"_editor_description_": ""
+}
+apply_forces = true
+apply_fric = true
+apply_grav = true
+sprite_animation = "Stab"
+anim_length = 15
+ticks_per_frame = 2
+enter_force_dir_x = "1"
+enter_force_speed = "10"
+title = "Stab"
+type = 1
+button_texture = ExtResource( 6 )
+air_type = 2
+self_interruptable = false
+interrupt_from_string = "Grounded
+Aerial"
+interrupt_into_string = "Grounded
+Aerial
+"
+hit_cancel_into_string = "GroundedAttack
+GroundedSpecial
+AerialAttack
+AerialSpecial"
+
+[node name="Hitbox" type="Node2D" parent="StateMachine/Stab" index="0"]
+z_index = 1000
+script = ExtResource( 4 )
+x = 17
+y = -21
+width = 16
+height = 6
+damage = 100
+hitstun_ticks = 25
+victim_hitlag = 5
+cancellable = false
+sdi_modifier = "0.0"
+dir_y = "-0.1"
+knockback = "8"
+launch_reversible = true
+start_tick = 5
+
+[node name="DebugStab" type="Node2D" parent="StateMachine" index="58"]
+script = ExtResource( 5 )
+__meta__ = {
+"_editor_description_": ""
+}
+apply_forces = true
+apply_fric = true
+apply_grav = true
+sprite_animation = "Stab"
+anim_length = 10
+ticks_per_frame = 2
+force_dir_x = "80"
+force_speed = "80"
+force_tick = 1
+enter_force_dir_x = "80"
+enter_force_speed = "80"
+title = "MegaKill"
+type = 1
+button_texture = ExtResource( 6 )
+air_type = 2
+self_interruptable = false
+interrupt_from_string = "Grounded
+Aerial"
+interrupt_into_string = "Grounded
+Aerial
+"
+hit_cancel_into_string = "GroundedAttack
+GroundedSpecial
+AerialAttack
+AerialSpecial"
+
+[node name="Hitbox" type="Node2D" parent="StateMachine/DebugStab" index="0"]
+z_index = 1000
+script = ExtResource( 4 )
+x = 17
+y = -21
+width = 16
+height = 6
+damage = 1000000
+hitstun_ticks = 25
+victim_hitlag = 5
+cancellable = false
+hits_otg = true
+sdi_modifier = "0.0"
+dir_y = "-0.1"
+knockback = "10"
+launch_reversible = true
+start_tick = 5
+
+[node name="Blowdart" type="Node2D" parent="StateMachine" index="59"]
+script = ExtResource( 7 )
+__meta__ = {
+"_editor_description_": ""
+}
+apply_forces = true
+apply_fric = true
+apply_grav = true
+sprite_animation = "Blowdart"
+anim_length = 20
+force_dir_x = "-1"
+force_speed = "1"
+force_tick = 4
+title = "Blowdart"
+type = 2
+data_ui_scene = ExtResource( 10 )
+button_texture = ExtResource( 9 )
+air_type = 2
+self_interruptable = false
+interrupt_from_string = "Grounded
+Aerial"
+interrupt_into_string = "Grounded
+Aerial
+"
+hit_cancel_into_string = "GroundedAttack
+GroundedSpecial
+AerialAttack
+AerialSpecial"
+SimpleProjectileScene = ExtResource( 8 )
+spawn_x_pos = 18
+spawn_y_pos = -26
+spawn_tick = 4
+speed = 30
